@@ -1,0 +1,265 @@
+paths:
+  /v1/jobs:
+    get:
+      summary: List all jobs
+      tags: [Jobs]
+      operationId: list_jobs
+      responses:
+        '200':
+          description: array of jobs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Jobs'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: jobs
+    post:
+      summary: Create a job
+      operationId: create_job
+      tags: [Jobs]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateJob'
+        required: true
+      responses:
+        '200':
+          description: created job
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: jobs
+  /v1/jobs/{jobId}:
+    delete:
+      summary: Delete a job
+      operationId: delete_job
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobIdParam'
+      responses: 
+        "204":
+          description: job deleted successfully
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: jobs
+    get:
+      summary: Query job information
+      operationId: get_job
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobIdParam'
+      responses:
+        '200':
+          description: job information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: jobs
+    put:
+      summary: Update job information
+      operationId: update_job
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobIdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateJob'
+        required: true
+      responses:
+        '200':
+          description: updated job information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: jobs
+  /v1/jobs/{jobId}/actions:
+    post:
+      summary: Make an action towards a job
+      operationId: action_job
+      tags: [Jobs]
+      parameters:
+        - $ref: '#/components/parameters/JobIdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobAction'
+        required: true
+      responses:
+        '200':
+          description: created quest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Job'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: jobs
+components:
+  parameters:
+    JobIdParam:
+      name: jobId
+      in: path
+      required: true
+      schema:
+        allOf:
+          - $ref: "#/components/schemas/UUID"
+        description: job identifier
+  schemas:
+    JobAction:
+      type: object
+      required: [action]
+      description: action to be made towards a job
+      properties:
+        action:
+          type: string
+          enum:
+            - accept
+            - complete
+            - void
+          description: |
+            accept - a user accepts an available job moving its
+              status to inprogress and the job can no longer be claimed
+              by other users
+            complete - the job poster determines the job is complete
+            void - the job poster voids the job and thus can no longer
+              be accepted or worked on
+          example: accept
+    JobBase:
+      description: base properties for a job object
+      properties:
+        reward:
+          $ref: "#/components/schemas/Reward"
+        summary:
+          type: string
+          description: additional information on the requirements of the job
+          example: >
+            Read chapter 1 of Misborn the Final Empire. Prepare a 5-10 minute
+            presentation. Present to the job poster to recount what happened
+            in the chapter. Once the job poster is satisfied with the presentation
+            then the job can be completed.
+        title:
+          type: string
+          description: title for the job
+          maxLength: 255
+          example: Presentation of Mistborn Chapter 1
+    UpdateJob:
+      allOf:
+        - $ref: "#/components/schemas/JobBase"
+      description: job update parameters
+    CreateJob:
+      allOf:
+        - $ref: "#/components/schemas/JobBase"
+        - $ref: "#/components/schemas/JobPoster"
+        - type: object
+          required:
+            - postedBy
+            - reward
+            - title
+      description: job creation parameters
+    JobPoster:
+      allOf:
+        - $ref: "#/components/schemas/User"
+      description: the one who posted the job
+    Job:
+      allOf:
+        - $ref: "#/components/schemas/JobBase"
+        - $ref: "#/components/schemas/JobPoster"
+        - $ref: "#/components/schemas/Timestamps"
+        - type: object
+          required:
+            - id
+            - postedBy
+            - reward
+            - status
+            - summary
+            - title
+          properties:
+            closedAt:
+              nullable: true
+              allOf:
+                - $ref: "#/components/schemas/DateTime"
+              description: |
+                When the job reached a terminal state (completed or voided).
+                Null if not terminal.
+            id:
+              allOf:
+                - $ref: "#/components/schemas/UUID"
+              description: quest unique identifier
+            claimedBy:
+              allOf:
+                - $ref: "#/components/schemas/User"
+              description: the one who claimed the job
+            status:
+              type: string
+              enum: [available, inprogress, completed, voided]
+              description: |
+                available - a user posted a job that can be accepted
+                  by any other user
+                inprogress - a user claims the job and is working on
+                  the it
+                completed - once the job poster is satisfied with the work of
+                  the job claimer and then given the reward then the job
+                  is deemed complete
+                voided - job poster voided the job and can no longer be
+                  accepted by any user
+              example: available
+      description: information pertaining to a job
+    Jobs:
+      type: array
+      items:
+        $ref: '#/components/schemas/Job'
+      description: an array of jobs
+    RewardCash:
+      type: object
+      description: a cash based compensation
+      required: [kind, amount]
+      properties:
+        kind:
+          type: string
+          enum: [cash]
+        amount:
+          type: integer
+          description: US dollar cash value
+          minimum: 1
+          example: 5
+    RewardItem:
+      type: object
+      description: compensation in the form of an item
+      required: [kind, name]
+      properties:
+        kind:
+          type: string
+          enum: [item]
+        name:
+          type: string
+          description: name of the reward item
+          example: Gameboy Advance SP
+        summary:
+          type: string
+          description: any additional informationn
+          example: |
+            red color, <link to online shop>
+    Reward:
+      description: Reward can be one of the following, (1) cash, (2) item
+      oneOf:
+        - $ref: "#/components/schemas/RewardCash"
+        - $ref: "#/components/schemas/RewardItem"
+      discriminator:
+        propertyName: kind
+        mapping:
+          cash: "#/components/schemas/RewardCash"
+          item: "#/components/schemas/RewardItem"

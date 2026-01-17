@@ -1,0 +1,8 @@
+openapi: 3.0.3
+info:
+  version: 0.1.0
+  title: FamilyHub
+  license:
+    name: GNU General Public License
+servers:
+  - url: http://familyhub.io/

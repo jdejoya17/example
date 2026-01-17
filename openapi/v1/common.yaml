@@ -1,0 +1,48 @@
+openapi: 3.0.3
+info:
+  version: 0.1.1
+  title: FamilyHubny
+  license:
+    name: GNU General Public License
+servers:
+  - url: http://familyhub.io/
+components:
+  responses:
+    DefaultError:
+      description: encountered error during request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    DateTime:
+      type: string
+      format: date-time
+      description: ISO 8601 date-time (RFC 3339)
+    Timestamps:
+      type: object
+      required: [createdAt, updatedAt]
+      properties:
+        createdAt:
+          allOf:
+            - $ref: "#/components/schemas/DateTime"
+          description: when the record was created
+        updatedAt:
+          allOf:
+            - $ref: "#/components/schemas/DateTime"
+          description: when the record was last updated 
+    UUID:
+      type: string
+      example: "550e8400-e29b-41d4-a716-446655440000"
+      description: RFC 4122 UUID
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

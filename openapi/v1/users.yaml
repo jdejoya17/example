@@ -1,0 +1,136 @@
+paths:
+  /v1/users:
+    get:
+      summary: List all users
+      tags: [Users]
+      operationId: list_users
+      responses:
+        '200':
+          description: array of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: users
+    post:
+        summary: Create a user
+        operationId: create_user
+        tags: [Users]
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUser'
+          required: true
+        responses:
+          '200':
+            description: created user
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          default:
+            $ref: '#/components/responses/DefaultError'
+        x-service-name: users
+  /v1/users/{userId}:
+    delete:
+      summary: Delete a user
+      operationId: delete_user
+      tags: [Users]
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      responses: 
+        "204":
+          description: user deleted successfully
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: users
+    get:
+      summary: Query user information
+      operationId: get_user
+      tags: [Users]
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      responses:
+        '200':
+          description: user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: users
+    put:
+      summary: Update user information
+      operationId: update_user
+      tags: [Users]
+      parameters:
+        - $ref: '#/components/parameters/UserIdParam'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUser'
+        required: true
+      responses:
+        '200':
+          description: updated user information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        default:
+          $ref: '#/components/responses/DefaultError'
+      x-service-name: users 
+components:
+  parameters:
+    UserIdParam:
+      name: userId
+      in: path
+      required: true
+      schema:
+        allOf:
+          - $ref: "#/components/schemas/UUID"
+        description: user identifier
+  schemas:
+    UserBase:
+      type: object
+      description: base properties for a user object
+      properties:
+        name:
+          type: string
+          description: user's name
+          example: John Doe
+    User:
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+        - $ref: "#/components/schemas/Timestamps"
+        - type: object
+          description: a generic user
+          required:
+            - id
+            - name
+          properties:
+            id:
+              allOf:
+                - $ref: "#/components/schemas/UUID"
+              description: user id
+    Users:
+      type: array
+      description: an array of users
+      items:
+        $ref: '#/components/schemas/User'
+    CreateUser:
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+        - type: object
+          required:
+            - name
+      description: user creation parameters
+    UpdateUser:
+      allOf:
+        - $ref: "#/components/schemas/UserBase"
+      description: user update parameters
