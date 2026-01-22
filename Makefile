@@ -36,6 +36,12 @@ help: ## display help information
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage: make ${LIGHT_BLUE}<target>${NC}\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  ${LIGHT_BLUE}%-40s${NC} %s\n", $$1, $$2 } /^##@/ { printf "\n${BOLD}%s${NC}\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
 
+.PHONY: clean
+clean: ## clean directory structure from artifacts
+	@rm -rf $(shell find . -name __pycache__) \
+		./log/*
+
+
 .PHONY: merge-openapi-specs
 merge-openapi-specs: ## merges the openapi specification files
 	@command -v openapi-merge-cli >/dev/null 2>&1 || { \
