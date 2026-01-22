@@ -1,6 +1,0 @@
-inputs:
-  - inputFile: ../v1/_meta.yaml
-  - inputFile: ../v1/common.yaml
-  - inputFile: ../v1/jobs.yaml
-  - inputFile: ../v1/users.yaml
-output: ./merged-spec.yaml
