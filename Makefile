@@ -18,6 +18,7 @@ install-openapi-merge: ## installs openapi merger tool
 	}
 	@npm install -g openapi-merge-cli
 
+
 #####################################################
 # Utility Targets
 #####################################################
@@ -25,6 +26,7 @@ install-openapi-merge: ## installs openapi merger tool
 .PHONY: help
 help: ## display help information
 	@awk 'BEGIN {FS = ":.*##"; printf "Usage: make ${LIGHT_BLUE}<target>${NC}\n"} /^[a-zA-Z_-]+:.*?##/ { printf "  ${LIGHT_BLUE}%-40s${NC} %s\n", $$1, $$2 } /^##@/ { printf "\n${BOLD}%s${NC}\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
 
 .PHONY: merge-openapi-specs
 merge-openapi-specs: ## merges the openapi specification files
@@ -45,7 +47,7 @@ merge-openapi-specs: ## merges the openapi specification files
 			rel_path=$$(realpath --relative-to="${TOOL_CONFIGS_BASE_DIR}" "$$file"); \
 	   		echo "  - inputFile: $$rel_path"; \
 	 	done; \
-	  	echo "output: ./intermediate.yaml"; \
+	  	echo "output: ./${MERGED_SPEC_FILENAME}"; \
 	} > "${OPENAPI_SPEC_MERGE_CONFIG}"; \
 	openapi-merge-cli -c $(OPENAPI_SPEC_MERGE_CONFIG)
 	

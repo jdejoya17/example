@@ -3,4 +3,4 @@ inputs:
   - inputFile: ../v1/common.yaml
   - inputFile: ../v1/jobs.yaml
   - inputFile: ../v1/users.yaml
-output: ./intermediate.yaml
+output: ./merged-spec.yaml
