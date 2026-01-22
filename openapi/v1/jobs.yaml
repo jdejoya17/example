@@ -34,7 +34,7 @@ paths:
         default:
           $ref: '#/components/responses/DefaultError'
       x-service-name: jobs
-  /v1/jobs/{jobId}:
+  /v1/jobs/{job_id}:
     delete:
       summary: Delete a job
       operationId: delete_job
@@ -85,7 +85,7 @@ paths:
         default:
           $ref: '#/components/responses/DefaultError'
       x-service-name: jobs
-  /v1/jobs/{jobId}/actions:
+  /v1/jobs/{job_id}/actions:
     post:
       summary: Make an action towards a job
       operationId: action_job
@@ -111,7 +111,7 @@ paths:
 components:
   parameters:
     JobIdParam:
-      name: jobId
+      name: job_id
       in: path
       required: true
       schema:
@@ -182,13 +182,13 @@ components:
         - type: object
           required:
             - id
-            - postedBy
+            - posted_by
             - reward
             - status
             - summary
             - title
           properties:
-            closedAt:
+            closed_at:
               nullable: true
               allOf:
                 - $ref: "#/components/schemas/DateTime"
@@ -199,7 +199,7 @@ components:
               allOf:
                 - $ref: "#/components/schemas/UUID"
               description: quest unique identifier
-            claimedBy:
+            claimed_by:
               allOf:
                 - $ref: "#/components/schemas/User"
               description: the one who claimed the job

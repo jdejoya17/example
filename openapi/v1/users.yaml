@@ -34,7 +34,7 @@ paths:
           default:
             $ref: '#/components/responses/DefaultError'
         x-service-name: users
-  /v1/users/{userId}:
+  /v1/users/{user_id}:
     delete:
       summary: Delete a user
       operationId: delete_user
@@ -88,7 +88,7 @@ paths:
 components:
   parameters:
     UserIdParam:
-      name: userId
+      name: user_id
       in: path
       required: true
       schema:
