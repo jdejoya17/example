@@ -1,0 +1,8 @@
+#########################################################
+# GENERATED FILE - DO NOT EDIT
+# Safe to regenerate at any time 
+#########################################################
+# flake8: noqa
+# import models into model package
+{{#models}}{{#model}}from {{modelPackage}}.{{classFilename}} import {{classname}}{{/model}}
+{{/models}}

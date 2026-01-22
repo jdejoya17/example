@@ -1,0 +1,34 @@
+#########################################################
+# GENERATED FILE - DO NOT EDIT
+# Safe to regenerate at any time 
+#########################################################
+{{#operations.operation}}
+{{#vendorExtensions.x-service-name}}
+from {{packageName}}.services.{{vendorExtensions.x-service-name}} import {{operationIdSnakeCase}} as impl_{{operationIdSnakeCase}}
+{{/vendorExtensions.x-service-name}}
+{{^vendorExtensions.x-service-name}}
+from {{packageName}}.services.{{#lambda.snakecase}}{{tag}}{{/lambda.snakecase}} import {{operationIdSnakeCase}}
+{{/vendorExtensions.x-service-name}}
+{{/operations.operation}}
+{{#operations.operation}}
+
+
+def {{operationIdSnakeCase}}({{#allParams}}{{^isBodyParam}}{{paramName}}{{/isBodyParam}}{{#isBodyParam}}body{{/isBodyParam}}{{^required}}=None{{/required}}{{^-last}}, {{/-last}}{{/allParams}}):
+    """
+    {{summary}}
+    {{#notes}}
+    {{notes}}
+    {{/notes}}
+    """
+
+    return impl_{{operationIdSnakeCase}}(
+        {{#allParams}}
+        {{^isBodyParam}}
+        {{paramName}}={{paramName}}{{^-last}},{{/-last}}
+        {{/isBodyParam}}
+        {{#isBodyParam}}
+        body=body{{^-last}},{{/-last}}
+        {{/isBodyParam}}
+        {{/allParams}}
+    )
+{{/operations.operation}}
