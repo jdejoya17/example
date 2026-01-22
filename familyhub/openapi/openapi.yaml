@@ -1,0 +1,658 @@
+#########################################################
+# GENERATED FILE - DO NOT EDIT
+# Safe to regenerate at any time 
+#########################################################
+openapi: 3.0.3
+info:
+  title: FamilyHub
+  version: 0.1.0
+servers:
+- url: http://familyhub.io/
+paths:
+  /v1/jobs:
+    get:
+      operationId: list_jobs
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Jobs"
+          description: array of jobs
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: List all jobs
+      tags:
+      - Jobs
+      x-service-name: jobs
+      x-openapi-router-controller: familyhub.controllers.jobs_controller
+    post:
+      operationId: create_job
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateJob"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+          description: created job
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Create a job
+      tags:
+      - Jobs
+      x-service-name: jobs
+      x-openapi-router-controller: familyhub.controllers.jobs_controller
+  /v1/jobs/{job_id}:
+    delete:
+      operationId: delete_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: job identifier
+        style: simple
+      responses:
+        "204":
+          description: job deleted successfully
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Delete a job
+      tags:
+      - Jobs
+      x-service-name: jobs
+      x-openapi-router-controller: familyhub.controllers.jobs_controller
+    get:
+      operationId: get_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: job identifier
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+          description: job information
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Query job information
+      tags:
+      - Jobs
+      x-service-name: jobs
+      x-openapi-router-controller: familyhub.controllers.jobs_controller
+    put:
+      operationId: update_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: job identifier
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateJob"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+          description: updated job information
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Update job information
+      tags:
+      - Jobs
+      x-service-name: jobs
+      x-openapi-router-controller: familyhub.controllers.jobs_controller
+  /v1/jobs/{job_id}/actions:
+    post:
+      operationId: action_job
+      parameters:
+      - explode: false
+        in: path
+        name: job_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: job identifier
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobAction"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Job"
+          description: created quest
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Make an action towards a job
+      tags:
+      - Jobs
+      x-service-name: jobs
+      x-openapi-router-controller: familyhub.controllers.jobs_controller
+  /v1/users:
+    get:
+      operationId: list_users
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Users"
+          description: array of users
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: List all users
+      tags:
+      - Users
+      x-service-name: users
+      x-openapi-router-controller: familyhub.controllers.users_controller
+    post:
+      operationId: create_user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUser"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: created user
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Create a user
+      tags:
+      - Users
+      x-service-name: users
+      x-openapi-router-controller: familyhub.controllers.users_controller
+  /v1/users/{user_id}:
+    delete:
+      operationId: delete_user
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: user identifier
+        style: simple
+      responses:
+        "204":
+          description: user deleted successfully
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Delete a user
+      tags:
+      - Users
+      x-service-name: users
+      x-openapi-router-controller: familyhub.controllers.users_controller
+    get:
+      operationId: get_user
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: user identifier
+        style: simple
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: user information
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Query user information
+      tags:
+      - Users
+      x-service-name: users
+      x-openapi-router-controller: familyhub.controllers.users_controller
+    put:
+      operationId: update_user
+      parameters:
+      - explode: false
+        in: path
+        name: user_id
+        required: true
+        schema:
+          allOf:
+          - $ref: "#/components/schemas/UUID"
+          description: user identifier
+        style: simple
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUser"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+          description: updated user information
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+          description: encountered error during request
+      summary: Update user information
+      tags:
+      - Users
+      x-service-name: users
+      x-openapi-router-controller: familyhub.controllers.users_controller
+components:
+  parameters:
+    JobIdParam:
+      explode: false
+      in: path
+      name: job_id
+      required: true
+      schema:
+        allOf:
+        - $ref: "#/components/schemas/UUID"
+        description: job identifier
+      style: simple
+    UserIdParam:
+      explode: false
+      in: path
+      name: user_id
+      required: true
+      schema:
+        allOf:
+        - $ref: "#/components/schemas/UUID"
+        description: user identifier
+      style: simple
+  responses:
+    DefaultError:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+      description: encountered error during request
+  schemas:
+    DateTime:
+      description: ISO 8601 date-time (RFC 3339)
+      format: date-time
+      type: string
+    Timestamps:
+      properties:
+        created_at:
+          allOf:
+          - $ref: "#/components/schemas/DateTime"
+          description: when the record was created
+          title: created_at
+        updated_at:
+          allOf:
+          - $ref: "#/components/schemas/DateTime"
+          description: when the record was last updated
+          title: updated_at
+      required:
+      - created_at
+      - updated_at
+      title: Timestamps
+      type: object
+    UUID:
+      description: RFC 4122 UUID
+      example: 550e8400-e29b-41d4-a716-446655440000
+      type: string
+    Error:
+      example:
+        code: 0
+        message: message
+      properties:
+        code:
+          format: int32
+          title: code
+          type: integer
+        message:
+          title: message
+          type: string
+      required:
+      - code
+      - message
+      title: Error
+      type: object
+    JobAction:
+      description: action to be made towards a job
+      example:
+        action: accept
+      properties:
+        action:
+          description: |
+            accept - a user accepts an available job moving its
+              status to inprogress and the job can no longer be claimed
+              by other users
+            complete - the job poster determines the job is complete
+            void - the job poster voids the job and thus can no longer
+              be accepted or worked on
+          enum:
+          - accept
+          - complete
+          - void
+          example: accept
+          title: action
+          type: string
+      required:
+      - action
+      title: JobAction
+      type: object
+    JobBase:
+      description: base properties for a job object
+      properties:
+        reward:
+          $ref: "#/components/schemas/Reward"
+        summary:
+          description: additional information on the requirements of the job
+          example: |
+            Read chapter 1 of Misborn the Final Empire. Prepare a 5-10 minute presentation. Present to the job poster to recount what happened in the chapter. Once the job poster is satisfied with the presentation then the job can be completed.
+          title: summary
+          type: string
+        title:
+          description: title for the job
+          example: Presentation of Mistborn Chapter 1
+          maxLength: 255
+          title: title
+          type: string
+      title: JobBase
+    UpdateJob:
+      allOf:
+      - $ref: "#/components/schemas/JobBase"
+      description: job update parameters
+      example:
+        reward:
+          amount: 5
+          kind: cash
+        summary: |
+          Read chapter 1 of Misborn the Final Empire. Prepare a 5-10 minute presentation. Present to the job poster to recount what happened in the chapter. Once the job poster is satisfied with the presentation then the job can be completed.
+        title: Presentation of Mistborn Chapter 1
+      title: UpdateJob
+    CreateJob:
+      allOf:
+      - $ref: "#/components/schemas/JobBase"
+      - $ref: "#/components/schemas/JobPoster"
+      - required:
+        - postedBy
+        - reward
+        - title
+        type: object
+      description: job creation parameters
+      example:
+        reward:
+          amount: 5
+          kind: cash
+        summary: |
+          Read chapter 1 of Misborn the Final Empire. Prepare a 5-10 minute presentation. Present to the job poster to recount what happened in the chapter. Once the job poster is satisfied with the presentation then the job can be completed.
+        updated_at: ""
+        name: John Doe
+        created_at: ""
+        id: ""
+        title: Presentation of Mistborn Chapter 1
+      title: CreateJob
+    JobPoster:
+      allOf:
+      - $ref: "#/components/schemas/User"
+      description: the one who posted the job
+      title: JobPoster
+    Job:
+      allOf:
+      - $ref: "#/components/schemas/JobBase"
+      - $ref: "#/components/schemas/JobPoster"
+      - $ref: "#/components/schemas/Timestamps"
+      - properties:
+          closed_at:
+            allOf:
+            - $ref: "#/components/schemas/DateTime"
+            description: |
+              When the job reached a terminal state (completed or voided).
+              Null if not terminal.
+            nullable: true
+          id:
+            allOf:
+            - $ref: "#/components/schemas/UUID"
+            description: quest unique identifier
+          claimed_by:
+            allOf:
+            - $ref: "#/components/schemas/User"
+            description: the one who claimed the job
+          status:
+            description: |
+              available - a user posted a job that can be accepted
+                by any other user
+              inprogress - a user claims the job and is working on
+                the it
+              completed - once the job poster is satisfied with the work of
+                the job claimer and then given the reward then the job
+                is deemed complete
+              voided - job poster voided the job and can no longer be
+                accepted by any user
+            enum:
+            - available
+            - inprogress
+            - completed
+            - voided
+            example: available
+            type: string
+        required:
+        - id
+        - posted_by
+        - reward
+        - status
+        - summary
+        - title
+        type: object
+      description: information pertaining to a job
+      example:
+        reward:
+          amount: 5
+          kind: cash
+        summary: |
+          Read chapter 1 of Misborn the Final Empire. Prepare a 5-10 minute presentation. Present to the job poster to recount what happened in the chapter. Once the job poster is satisfied with the presentation then the job can be completed.
+        closed_at: ""
+        updated_at: ""
+        name: John Doe
+        created_at: ""
+        id: ""
+        title: Presentation of Mistborn Chapter 1
+        claimed_by: ""
+        status: available
+      title: Job
+    Jobs:
+      description: an array of jobs
+      items:
+        $ref: "#/components/schemas/Job"
+      type: array
+    RewardCash:
+      description: a cash based compensation
+      example:
+        amount: 5
+        kind: cash
+      properties:
+        kind:
+          enum:
+          - cash
+          title: kind
+          type: string
+        amount:
+          description: US dollar cash value
+          example: 5
+          minimum: 1
+          title: amount
+          type: integer
+      required:
+      - amount
+      - kind
+      title: RewardCash
+      type: object
+    RewardItem:
+      description: compensation in the form of an item
+      properties:
+        kind:
+          enum:
+          - item
+          title: kind
+          type: string
+        name:
+          description: name of the reward item
+          example: Gameboy Advance SP
+          title: name
+          type: string
+        summary:
+          description: any additional informationn
+          example: |
+            red color, <link to online shop>
+          title: summary
+          type: string
+      required:
+      - kind
+      - name
+      title: RewardItem
+      type: object
+    Reward:
+      description: "Reward can be one of the following, (1) cash, (2) item"
+      discriminator:
+        mapping:
+          cash: "#/components/schemas/RewardCash"
+          item: "#/components/schemas/RewardItem"
+        propertyName: kind
+      oneOf:
+      - $ref: "#/components/schemas/RewardCash"
+      - $ref: "#/components/schemas/RewardItem"
+      title: Reward
+    UserBase:
+      description: base properties for a user object
+      properties:
+        name:
+          description: user's name
+          example: John Doe
+          title: name
+          type: string
+      title: UserBase
+      type: object
+    User:
+      allOf:
+      - $ref: "#/components/schemas/UserBase"
+      - $ref: "#/components/schemas/Timestamps"
+      - description: a generic user
+        properties:
+          id:
+            allOf:
+            - $ref: "#/components/schemas/UUID"
+            description: user id
+        required:
+        - id
+        - name
+        type: object
+      example:
+        updated_at: ""
+        name: John Doe
+        created_at: ""
+        id: ""
+      title: User
+    Users:
+      description: an array of users
+      items:
+        $ref: "#/components/schemas/User"
+      type: array
+    CreateUser:
+      allOf:
+      - $ref: "#/components/schemas/UserBase"
+      - required:
+        - name
+        type: object
+      description: user creation parameters
+      example:
+        name: John Doe
+      title: CreateUser
+    UpdateUser:
+      allOf:
+      - $ref: "#/components/schemas/UserBase"
+      description: user update parameters
+      example:
+        name: John Doe
+      title: UpdateUser
