@@ -21,11 +21,8 @@ install-openapi-merge: ## installs openapi merger tool
 
 .PHONY: install-openapi-generator
 install-openapi-generator: ## install or update openapi generator and it's dependencies
-	@command -v $(JAVA_CMD) >/dev/null 2>&1 || { \
-		printf "${RED}ERROR${NC}: java (openjdk >= 11) is not installed\n"; \
-		exit 1; \
-	}
 	python -m pip install --upgrade openapi-generator-cli
+	python -m pip install --upgrade openapi-generator-cli[jdk4py]
 
 #####################################################
 # Utility Targets
@@ -72,6 +69,7 @@ generate-server-stub: merge-openapi-specs ## autogenerates a server stub from th
 	rm -f $(OPENAPI_SPEC_BASE_DIR)/$(MERGED_SPEC_FILENAME); \
 	rm -f $(OPENAPI_SPEC_MERGE_CONFIG); \
 	rm -f $(OPENAPI_IGNORE_FILE); \
+	rm -rf $(OPENAPI_SPEC_BASE_DIR)/$(OPENAPI_GENERATOR_META)
 	mv $(OPENAPI_GENERATOR_META) $(OPENAPI_SPEC_BASE_DIR)
 
 
