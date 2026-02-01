@@ -35,19 +35,19 @@ merge-openapi-specs: ## merges the openapi specification files
 		exit 1; \
 	}; \
 	@set -euo pipefail; \
+	rm -f ${OPENAPI_SPEC_BASE_DIR}/${MERGED_SPEC_FILENAME}; \
 	mapfile -t YAML_FILES < <( \
 		find "${OPENAPI_SPEC_BASE_DIR}" \
-			-type d -name tool-configs -prune -o \
 			-type d -name templates -prune -o \
 	    	-type f \( -name '*.yaml' -o -name '*.yml' \) -print | LC_ALL=C sort \
 	); \
 	{ \
 		echo "inputs:"; \
 	  	for file in "$${YAML_FILES[@]}"; do \
-			rel_path=$$(realpath --relative-to="${TOOL_CONFIGS_BASE_DIR}" "$$file"); \
+			rel_path=$$(realpath --relative-to="${CONFIGS_BASE_DIR}" "$$file"); \
 	   		echo "  - inputFile: $$rel_path"; \
 	 	done; \
-	  	echo "output: ./${MERGED_SPEC_FILENAME}"; \
+	  	echo "output: ../${OPENAPI_SPEC_BASE_DIR}/${MERGED_SPEC_FILENAME}"; \
 	} > "${OPENAPI_SPEC_MERGE_CONFIG}"; \
 	openapi-merge-cli -c $(OPENAPI_SPEC_MERGE_CONFIG)
 	

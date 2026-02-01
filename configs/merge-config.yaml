@@ -1,0 +1,6 @@
+inputs:
+  - inputFile: ../openapi/v1/_meta.yaml
+  - inputFile: ../openapi/v1/common.yaml
+  - inputFile: ../openapi/v1/jobs.yaml
+  - inputFile: ../openapi/v1/users.yaml
+output: ../openapi/merged-spec.yaml
